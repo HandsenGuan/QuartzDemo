@@ -32,18 +32,23 @@
   </build>
 
   <properties>
+
+    <skipTests>true</skipTests>
+
     <springframework.version>4.0.6.RELEASE</springframework.version>
     <quartz.version>2.2.1</quartz.version>
     <junit.version>3.8.1</junit.version>
     <jstl.version>1.2</jstl.version>
     <slf4j.version>1.6.6</slf4j.version>
     <log4j.version>1.2.12</log4j.version>
-
-    <mybatis.version>3.2.8</mybatis.version>
+    <mybatis.version>3.2.2</mybatis.version>
     <mybatis.spring.version>1.2.2</mybatis.spring.version>
-    <mysql.connector.version>5.1.38</mysql.connector.version>
-    <druid.version>1.0.18</druid.version>
-
+    <mysql.connector.version>5.1.30</mysql.connector.version>
+    <druid.version>1.0.5</druid.version>
+    <jackson.version>1.9.13</jackson.version>
+    <commons.codec.version>1.10</commons.codec.version>
+    <aspectj.version>1.6.12</aspectj.version>
+    <cglib.version>3.2.0</cglib.version>
   </properties>
 
   <dependencies>
@@ -79,10 +84,25 @@
       <artifactId>spring-webmvc</artifactId>
       <version>${springframework.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
     <!-- Transaction dependency is required with Quartz integration -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
       <version>${springframework.version}</version>
     </dependency>
 
@@ -160,8 +180,52 @@
       <version>${druid.version}</version>
     </dependency>
 
+    <!-- jackson -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!--commons-->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons.codec.version}</version>
+    </dependency>
+
+    <!-- aspectjweaver -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+
+    <!-- cglib -->
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+      <version>${cglib.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>cglib</groupId>-->
+      <!--<artifactId>cglib</artifactId>-->
+      <!--<version>${cglib.version}</version>-->
+    <!--</dependency>-->
+
+
   </dependencies>
-  <build>
-    <finalName>QuartzDemo</finalName>
-  </build>
+
 </project>

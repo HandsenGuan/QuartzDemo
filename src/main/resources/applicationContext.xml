@@ -3,10 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/cache
+       http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!-- 自动扫描controller包 ,将带有注解的类 纳入spring容器管理 -->
-    <context:component-scan base-package="com.springmvc.controller"/>
+    <context:component-scan base-package="com.guan.springmvc.web"/>
+
 
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -54,10 +65,10 @@
     <!-- mybatis文件配置，扫描所有mapper文件 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" p:dataSource-ref="dataSource"
           p:configLocation="classpath:mybatis-config.xml"
-          p:mapperLocations="classpath:com/springmvc/dao/mapper/*.xml"/>
+          p:mapperLocations="classpath:com/guan/springmvc/web/dao/*.xml"/>
 
     <!-- spring与mybatis整合配置，扫描所有dao -->
-    <bean class="org.mybatis.spring.com.springmvc.dao.mapper.MapperScannerConfigurer" p:basePackage="com.eliteams.quick4j.web.dao"
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" p:basePackage="com.guan.springmvc.web.dao"
           p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
 
     <!-- 对dataSource 数据源进行事务管理 -->
@@ -82,24 +93,27 @@
 
     <!-- 事务 aop 配置 -->
     <aop:config>
-        <aop:pointcut id="serviceMethods" expression="execution(* com.springmvc.service..*(..))"/>
+        <aop:pointcut id="serviceMethods" expression="execution(* com.guan.springmvc.web.service..*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
     </aop:config>
+
+    <!-- 配置使Spring采用CGLIB代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 启用对事务注解的支持 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Cache配置 -->
     <!--<cache:annotation-driven cache-manager="cacheManager"/>-->
-    <!--<bean id="ehCacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"-->
-          <!--p:configLocation="classpath:ehcache.xml"/>-->
     <!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"-->
           <!--p:cacheManager-ref="ehCacheManagerFactory"/>-->
+    <!--<bean id="ehCacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"-->
+          <!--p:configLocation="classpath:ehcache.xml"/>-->
 
 
-
+    <!--Quartz配置-->
     <!--要调度的对象-->
-    <bean id="jobBean" class="com.springmvc.jobs.TimedTask" />
+    <bean id="jobBean" class="com.guan.springmvc.web.jobs.TimedTask" />
     <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="jobBean" />
         <property name="targetMethod" value="execute" />
@@ -122,8 +136,6 @@
             </list>
         </property>
     </bean>
-
-
 
 
 </beans>
