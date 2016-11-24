@@ -72,6 +72,15 @@
     </listener>
 
 
+    <!--Quartz上下文监听器-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.quartz.ee.servlet.QuartzInitializerListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+
+
+
     <!-- 首页 -->
     <welcome-file-list>
         <welcome-file>/index</welcome-file>
